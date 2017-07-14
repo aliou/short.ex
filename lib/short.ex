@@ -1,7 +1,7 @@
 defmodule Short do
-  @moduledoc """
-  Documentation for Short.
-  """
+  @moduledoc false
+
+  use Application
 
   defmodule CodeNotFoundError do
     defexception [:message, :code]
@@ -27,5 +27,17 @@ defmodule Short do
         message: "Code \"#{code}\" already exists."
       }
     end
+  end
+
+  def start(_type, _args) do
+    import Supervisor.Spec
+
+    # TODO: Only add the memory adapter if it is the selected adapter.
+    children = [
+      worker(Short.InMemoryAdapter, []),
+    ]
+
+    opts = [strategy: :one_for_one, name: Short.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end
