@@ -31,6 +31,8 @@ defmodule Short.Mixfile do
     [
       # Development tools.
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:faker, "~> 0.8", only: [:dev, :test]},
+      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
     ]
   end
 end
