@@ -1,3 +1,3 @@
 # Short
 
-A URL shortener written in Elixir.
+A URL shortener toolkit written in Elixir.
