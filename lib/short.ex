@@ -3,16 +3,29 @@ defmodule Short do
   Documentation for Short.
   """
 
-  @doc """
-  Hello world.
+  defmodule CodeNotFoundError do
+    defexception [:message, :code]
 
-  ## Examples
+    @type t :: Exception.t
 
-      iex> Short.hello
-      :world
+    def exception(code) do
+      %__MODULE__{
+        code: code,
+        message: "URL for code \"#{code}\" was not found."
+      }
+    end
+  end
 
-  """
-  def hello do
-    :world
+  defmodule CodeAlreadyExistsError do
+    defexception [:message, :code]
+
+    @type t :: Exception.t
+
+    def exception(code) do
+      %__MODULE__{
+        code: code,
+        message: "Code \"#{code}\" already exists."
+      }
+    end
   end
 end
