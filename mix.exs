@@ -29,6 +29,9 @@ defmodule Short.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      # Router.
+      {:plug, "~> 1.4.0-rc.0"},
+
       # Development tools.
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:faker, "~> 0.8", only: [:dev, :test]},
