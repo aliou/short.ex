@@ -25,6 +25,13 @@ defmodule Short.Adapter do
   """
   @type shortened_url :: {code, url}
 
-  @callback fetch(code) :: {:ok, url}
-  @callback create(url, code | nil) :: {:ok, shortened_url}
+  @typedoc """
+  Possible errors occuring when fetching or shortening an URL.
+
+  TODO: Find a better name for this type.
+  """
+  @type error :: Short.CodeNotFoundError.t | Short.CodeAlreadyExistsError.t
+
+  @callback fetch_url(code) :: {:ok, url} | {:error, error}
+  @callback shorten(url, code | nil) :: {:ok, shortened_url} | {:error, error}
 end
