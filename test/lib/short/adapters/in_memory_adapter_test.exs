@@ -17,7 +17,7 @@ defmodule Short.InMemoryAdapterTest do
 
     test "it returns the code and the URL when the code exists" do
       url = Faker.Internet.url
-      code = "abc"
+      code = Short.Code.generate()
 
       InMemoryAdapter.create(url, code)
 
