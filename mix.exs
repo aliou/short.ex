@@ -30,7 +30,7 @@ defmodule Short.Mixfile do
   defp deps do
     [
       # Router.
-      {:plug, "~> 1.4.0-rc.0"},
+      {:plug, "~> 1.0"},
 
       # Development tools.
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
