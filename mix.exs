@@ -16,7 +16,7 @@ defmodule Short.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [
-      mod: {Short, []},
+      mod: {Short.Application, []},
       extra_applications: [:logger]
     ]
   end
