@@ -4,8 +4,7 @@ defmodule Short.InMemoryAdapterTest do
   alias Short.{CodeNotFoundError, CodeAlreadyExistsError, InMemoryAdapter}
 
   setup do
-    {:ok, _adapter} = InMemoryAdapter.start_link
-    :ok
+    Short.InMemoryAdapter.clear!
   end
 
   describe "fetch_url/1" do
