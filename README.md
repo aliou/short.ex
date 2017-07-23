@@ -18,7 +18,7 @@ web server:
 # mix.exs
 
 def application do
-[applications: [:short]]
+  [applications: [:short]]
 end
 
 defp deps do
@@ -28,6 +28,13 @@ defp deps do
   {:cowboy, "~> 1.0.0"},
   ...
 ]
+```
+
+Configure Short to use the In Memory Adapter:
+```elixir
+# config/config.exs
+
+config :short, :adapter, Short.Adapters.InMemoryAdapter
 ```
 
 Finally, add the router to your application's supervisor tree:
