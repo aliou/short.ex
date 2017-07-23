@@ -1,10 +1,11 @@
 defmodule Short.InMemoryAdapterTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias Short.{CodeNotFoundError, CodeAlreadyExistsError, InMemoryAdapter}
 
   setup do
     Short.InMemoryAdapter.clear!
+    :ok
   end
 
   describe "get/1" do
