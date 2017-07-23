@@ -3,13 +3,15 @@ defmodule Short.Application do
 
   use Application
 
+  alias Short.Adapters.InMemoryAdapter
+
   def start(_type, _args) do
     import Supervisor.Spec
 
     # TODO: Is there a better way to do this? Also there should be a way to
     # configure this, when using a custom adapter.
     children = case Application.get_env(:short, :adapter) do
-      Short.InMemoryAdapter -> [worker(Short.InMemoryAdapter, [])]
+      InMemoryAdapter -> [worker(InMemoryAdapter, [])]
       _ -> []
     end
 

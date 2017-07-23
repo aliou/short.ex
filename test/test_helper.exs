@@ -1,5 +1,5 @@
 ExUnit.start()
 
 # Use the InMemoryAdapter for tests.
-Application.put_env(:short, :adapter, Short.InMemoryAdapter)
-{:ok, _} = Short.InMemoryAdapter.start_link
+Application.put_env(:short, :adapter, Short.Adapters.InMemoryAdapter)
+{:ok, _} = Short.Adapters.InMemoryAdapter.start_link

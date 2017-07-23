@@ -5,7 +5,7 @@ defmodule Short.RouterTest do
   @options Short.Router.init([])
 
   setup do
-    Short.InMemoryAdapter.clear!
+    Short.Adapters.InMemoryAdapter.clear!
     :ok
   end
 
