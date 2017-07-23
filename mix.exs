@@ -2,12 +2,20 @@ defmodule Short.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :short,
-     version: "0.1.0",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :short,
+      version: "0.1.0",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+
+      # Docs
+      name: "Short",
+      source_url: "https://github.com/aliou/short.ex",
+      docs: [main: "Short", # The main page in the docs
+             extras: ["README.md"]]
+    ]
   end
 
   # Configuration for the OTP application
@@ -39,6 +47,9 @@ defmodule Short.Mixfile do
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
       {:faker, "~> 0.8", only: [:dev, :test]},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
+
+      # Docs
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
     ]
   end
 end
