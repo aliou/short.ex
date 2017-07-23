@@ -9,7 +9,7 @@ defmodule Short.Adapter do
   be used for the code, or we might want to limit the number of characters
   for the code.
   """
-  @type code :: String.t
+  @type code :: Short.Code.t
 
   @typedoc """
   Either a regular String or a URI if we want more control.

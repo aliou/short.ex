@@ -8,9 +8,7 @@ defmodule Short.InMemoryAdapter do
 
   @behaviour Short.Adapter
 
-  @code_length 3
-
-  alias Short.{CodeAlreadyExistsError, CodeNotFoundError}
+  alias Short.{Code, CodeAlreadyExistsError, CodeNotFoundError}
 
   ## Agent setup
 
@@ -31,13 +29,11 @@ defmodule Short.InMemoryAdapter do
   end
 
   @impl Short.Adapter
-  @spec create(String.t, String.t | nil) ::
+  @spec create(String.t, Short.Code.t | nil) ::
     {:ok, {String.t, String.t}} | {:error, CodeAlreadyExistsError.t}
   def create(url, code \\ nil)
 
-  def create(url, nil) do
-    create(url, generate_code())
-  end
+  def create(url, nil), do: create(url, Code.generate())
 
   # TODO: This is refactorable using `with` I think.
   def create(url, code) do
@@ -55,13 +51,6 @@ defmodule Short.InMemoryAdapter do
 
   @doc false
   def clear!, do: Agent.update(__MODULE__, (fn(_) -> %{} end))
-
-  defp generate_code do
-    @code_length
-    |> :crypto.strong_rand_bytes()
-    |> Base.url_encode64
-    |> binary_part(0, @code_length)
-  end
 
   # TODO: Better names?
   defp all, do: Agent.get(__MODULE__, fn(urls) -> urls end)
