@@ -35,6 +35,7 @@ defmodule Short.InMemoryAdapter do
     shorten(url, generate_code())
   end
 
+  # TODO: This is refactorable using `with` I think.
   def shorten(url, code) do
     if code_exists?(code) do
       {:error, CodeAlreadyExistsError.exception(code)}
@@ -56,6 +57,7 @@ defmodule Short.InMemoryAdapter do
     |> binary_part(0, @code_length)
   end
 
+  # TODO: Better names?
   defp all, do: Agent.get(__MODULE__, fn(urls) -> urls end)
   defp code_exists?(code), do: Map.has_key?(all(), code)
   defp fetch_code(url), do: all() |> Enum.find(fn ({_, v}) -> url == v end)
