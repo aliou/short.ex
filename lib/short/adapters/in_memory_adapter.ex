@@ -12,14 +12,18 @@ defmodule Short.InMemoryAdapter do
 
   alias Short.{CodeAlreadyExistsError, CodeNotFoundError}
 
+  ## Agent setup
+
   @doc "Starts the Adapter Agent"
   def start_link do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
+  ## Short Adapter implementation
+
   @impl Short.Adapter
-  @spec fetch_url(String.t) :: {:ok, String.t} | {:error, CodeNotFoundError.t}
-  def fetch_url(code) do
+  @spec get(String.t) :: {:ok, String.t} | {:error, CodeNotFoundError.t}
+  def get(code) do
     case Map.fetch(all(), code) do
       {:ok, url} -> {:ok, url}
       :error -> {:error, CodeNotFoundError.exception(code)}
@@ -27,16 +31,16 @@ defmodule Short.InMemoryAdapter do
   end
 
   @impl Short.Adapter
-  @spec shorten(String.t, String.t | nil) ::
+  @spec create(String.t, String.t | nil) ::
     {:ok, {String.t, String.t}} | {:error, CodeAlreadyExistsError.t}
-  def shorten(url, code \\ nil)
+  def create(url, code \\ nil)
 
-  def shorten(url, nil) do
-    shorten(url, generate_code())
+  def create(url, nil) do
+    create(url, generate_code())
   end
 
   # TODO: This is refactorable using `with` I think.
-  def shorten(url, code) do
+  def create(url, code) do
     if code_exists?(code) do
       {:error, CodeAlreadyExistsError.exception(code)}
     else
@@ -46,6 +50,8 @@ defmodule Short.InMemoryAdapter do
       end
     end
   end
+
+  ## Agent helpers.
 
   @doc false
   def clear!, do: Agent.update(__MODULE__, (fn(_) -> %{} end))

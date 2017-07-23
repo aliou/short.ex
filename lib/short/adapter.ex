@@ -32,6 +32,6 @@ defmodule Short.Adapter do
   """
   @type error :: Short.CodeNotFoundError.t | Short.CodeAlreadyExistsError.t
 
-  @callback fetch_url(code) :: {:ok, url} | {:error, error}
-  @callback shorten(url, code | nil) :: {:ok, shortened_url} | {:error, error}
+  @callback get(code) :: {:ok, url} | {:error, error}
+  @callback create(url, code | nil) :: {:ok, shortened_url} | {:error, error}
 end
