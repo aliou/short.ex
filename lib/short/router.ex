@@ -30,7 +30,7 @@ defmodule Short.Router do
     end
   end
 
-  match _, do: send_resp(conn, 404, "")
+  match _, do: send_resp(conn, 404, "not found")
 
   ## Helpers
 
