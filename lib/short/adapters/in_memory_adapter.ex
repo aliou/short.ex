@@ -46,6 +46,9 @@ defmodule Short.InMemoryAdapter do
     end
   end
 
+  @doc false
+  def clear!, do: Agent.update(__MODULE__, (fn(_) -> %{} end))
+
   defp generate_code do
     @code_length
     |> :crypto.strong_rand_bytes()
