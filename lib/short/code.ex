@@ -6,15 +6,27 @@ defmodule Short.Code do
   Codes.
   """
 
-  @typedoc false
   @type t :: String.t
 
-  @spec generate :: Short.Code.t
-  def generate do
-    code_length()
+  @doc """
+  Generates valid code.
+
+  By default, the code will be of `default_code_length` length. Short allows
+  this default code length to be overriden through the Mix configuration of the
+  `:short` application. For example, to override the length, the following
+  config can be specified:
+
+      config :short, :code_length, 7
+  """
+  @spec generate(integer) :: Short.Code.t
+  def generate(length \\ 0)
+
+  def generate(0), do: generate(code_length())
+  def generate(length) do
+    length
     |> :crypto.strong_rand_bytes()
-    |> Base.url_encode64
-    |> binary_part(0, code_length())
+    |> Base.url_encode64()
+    |> binary_part(0, length)
   end
 
   @doc """
@@ -39,8 +51,11 @@ defmodule Short.Code do
 
   ## Helpers
 
-  @default_code_length 3
+  @doc false
+  def default_code_length, do: 3
+
+  # This is obviously overkill but ya boy aliou wants to learn things.
   defp code_length do
-    Application.get_env(:short, :code_length, @default_code_length)
+    Application.get_env(:short, :code_length, default_code_length())
   end
 end
