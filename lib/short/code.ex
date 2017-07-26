@@ -11,6 +11,20 @@ defmodule Short.Code do
 
   @opaque t :: %__MODULE__{}
 
+  @doc """
+  Returns a new Wrapped code.
+
+  ## Examples
+
+      iex> Short.Code.new("abc")
+      %Short.Code{__code: "abc"}
+
+      iex> Short.Code.new("?!&")
+      %Short.Code{__code: "?!&"}
+
+  """
+  @spec new(String.t) :: t
+  def new(code), do: %Short.Code{__code: code}
 
   @doc """
   Generates valid code.
