@@ -18,7 +18,7 @@ web server:
 # mix.exs
 
 def application do
-  [applications: [:short]]
+  [applications: [:short, :cowboy]]
 end
 
 defp deps do
