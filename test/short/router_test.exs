@@ -41,7 +41,7 @@ defmodule Short.RouterTest do
         |> Short.Router.call(@options)
 
       assert conn.status == 200
-      assert conn.resp_body == code
+      assert conn.resp_body == to_string(code)
     end
 
     test "it returns an error when there is an error" do
