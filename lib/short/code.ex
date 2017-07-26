@@ -45,6 +45,7 @@ defmodule Short.Code do
     |> :crypto.strong_rand_bytes()
     |> Base.url_encode64()
     |> binary_part(0, length)
+    |> new()
   end
 
   @doc """
