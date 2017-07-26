@@ -76,4 +76,8 @@ defmodule Short.Code do
   defp code_length do
     Application.get_env(:short, :code_length, default_code_length())
   end
+
+  @doc false
+  @spec length(t) :: integer
+  def length(code), do: String.length(code.__code)
 end

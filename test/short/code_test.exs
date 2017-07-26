@@ -6,7 +6,7 @@ defmodule Short.CodeTest do
     test "it generates a code of default length when not configured nor given" do
       code = Short.Code.generate()
 
-      assert String.length(code) == Short.Code.default_code_length()
+      assert Short.Code.length(code) == Short.Code.default_code_length()
     end
 
     test "it generates a code of the configured length when non given" do
@@ -18,7 +18,7 @@ defmodule Short.CodeTest do
       end
 
       code = Short.Code.generate()
-      assert String.length(code) == configured_code_length
+      assert Short.Code.length(code) == configured_code_length
     end
 
     test "it generates a code of the given length when given" do
@@ -36,8 +36,8 @@ defmodule Short.CodeTest do
       end
 
       code = Short.Code.generate(given_code_length)
-      assert String.length(code) == given_code_length
-      assert String.length(code) != configured_code_length
+      assert Short.Code.length(code) == given_code_length
+      assert Short.Code.length(code) != configured_code_length
     end
   end
 end
