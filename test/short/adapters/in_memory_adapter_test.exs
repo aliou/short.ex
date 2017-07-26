@@ -13,7 +13,7 @@ defmodule Short.Adapters.InMemoryAdapterTest do
     test "it returns an error when the code doesn't exist" do
       code = "abc"
 
-      assert {:error, %CodeNotFoundError{code: ^code}} =
+      assert {:error, %CodeNotFoundError{code: %Short.Code{__code: ^code}}} =
         InMemoryAdapter.get(code)
     end
 
