@@ -9,7 +9,9 @@ defmodule Short.Code do
   @enforce_keys [:__code]
   defstruct [:__code]
 
-  @opaque t :: %__MODULE__{}
+  @type t :: %__MODULE__{
+    __code: String.t
+  }
 
   @doc """
   Returns a new Wrapped code.
