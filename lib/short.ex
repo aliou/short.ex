@@ -8,6 +8,7 @@ defmodule Short do
 
     @type t :: Exception.t
 
+    @spec exception(Short.Code.t) :: t
     def exception(code) do
       %__MODULE__{
         code: code,
@@ -21,6 +22,7 @@ defmodule Short do
 
     @type t :: Exception.t
 
+    @spec exception(Short.Code.t) :: t
     def exception(code) do
       %__MODULE__{
         code: code,
