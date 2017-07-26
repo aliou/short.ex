@@ -6,8 +6,6 @@ defmodule Short.Application do
   alias Short.Adapters.InMemoryAdapter
 
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # TODO: Is this the best place to do this?
     if adapter_missing_in_config?() do
       raise ArgumentError, "missing :adapter in Short application configuration."
@@ -16,7 +14,7 @@ defmodule Short.Application do
     # TODO: Is there a better way to do this? Also there should be a way to
     # configure this, when using a custom adapter.
     children = case Application.get_env(:short, :adapter) do
-      InMemoryAdapter -> [worker(InMemoryAdapter, [])]
+      InMemoryAdapter -> [InMemoryAdapter]
       _ -> []
     end
 

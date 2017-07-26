@@ -17,6 +17,16 @@ defmodule Short.Adapters.InMemoryAdapter do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
+  ## Child specification
+
+  @doc false
+  def child_spec(_) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, []}
+    }
+  end
+
   ## Short Adapter implementation
 
   @impl Short.Adapter
