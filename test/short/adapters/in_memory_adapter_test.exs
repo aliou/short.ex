@@ -35,14 +35,14 @@ defmodule Short.Adapters.InMemoryAdapterTest do
 
     test "it uses the given code when available" do
       url = Faker.Internet.url
-      code = "my-custom-code"
+      code = Short.Code.new("my-custom-code")
 
       assert {:ok, {^code, ^url}} = InMemoryAdapter.create(url, code)
     end
 
     test "it returns an error when the code already exists" do
       url = Faker.Internet.url
-      code = "my-custom-code"
+      code = Short.Code.new("my-custom-code")
 
       InMemoryAdapter.create(url, code)
 
@@ -52,7 +52,7 @@ defmodule Short.Adapters.InMemoryAdapterTest do
 
     test "it returns the existing code if the URL already exists" do
       url = Faker.Internet.url
-      code = "my-custom-code"
+      code = Short.Code.new("my-custom-code")
 
       InMemoryAdapter.create(url, code)
 
