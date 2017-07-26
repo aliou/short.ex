@@ -82,3 +82,15 @@ defmodule Short.Code do
   @spec length(t) :: integer
   def length(code), do: String.length(code.__code)
 end
+
+# Allow `Short.Code`s to be interpolated in strings.
+defimpl String.Chars, for: Short.Code do
+  def to_string(code), do: code.__code
+end
+
+# Hide internal implementation in IEx. No reason, I just want to.
+defimpl Inspect, for: Short.Code do
+  @inspected inspect(@for)
+
+  def inspect(code, _), do: "#" <> @inspected <> "<" <> to_string(code) <> ">"
+end
