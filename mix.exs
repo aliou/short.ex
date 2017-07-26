@@ -9,6 +9,7 @@ defmodule Short.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
+      aliases: aliases(),
 
       # Docs
       name: "Short",
@@ -50,6 +51,12 @@ defmodule Short.Mixfile do
 
       # Docs
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+    ]
+  end
+
+  defp aliases do
+    [
+      test: "test --no-start"
     ]
   end
 end
