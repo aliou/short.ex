@@ -13,7 +13,7 @@ defmodule Short.Mixfile do
       # Docs
       name: "Short",
       source_url: "https://github.com/aliou/short.ex",
-      docs: [main: "Short", # The main page in the docs
+      docs: [main: "readme", # The main page in the docs
              extras: ["README.md"]]
     ]
   end
