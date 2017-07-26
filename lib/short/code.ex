@@ -6,7 +6,11 @@ defmodule Short.Code do
   Codes.
   """
 
-  @type t :: String.t
+  @enforce_keys [:__code]
+  defstruct [:__code]
+
+  @opaque t :: %__MODULE__{}
+
 
   @doc """
   Generates valid code.
