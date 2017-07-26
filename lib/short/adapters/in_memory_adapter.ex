@@ -30,8 +30,13 @@ defmodule Short.Adapters.InMemoryAdapter do
   ## Short Adapter implementation
 
   @impl Short.Adapter
-  @spec get(String.t) :: {:ok, String.t} | {:error, CodeNotFoundError.t}
-  def get(code) do
+  @spec get(Short.Code.t | String.t) ::
+    {:ok, String.t} | {:error, CodeNotFoundError.t}
+  def get(code)
+
+  def get(code) when is_binary(code), do: get(Code.new(code))
+
+  def get(%Short.Code{} = code) do
     case Map.fetch(all(), code) do
       {:ok, url} -> {:ok, url}
       :error -> {:error, CodeNotFoundError.exception(code)}
@@ -40,7 +45,7 @@ defmodule Short.Adapters.InMemoryAdapter do
 
   @impl Short.Adapter
   @spec create(String.t, Short.Code.t | nil) ::
-    {:ok, {String.t, String.t}} | {:error, CodeAlreadyExistsError.t}
+    {:ok, {Short.Code.t, String.t}} | {:error, CodeAlreadyExistsError.t}
   def create(url, code \\ nil)
 
   def create(url, nil), do: create(url, Code.generate())

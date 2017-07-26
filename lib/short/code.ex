@@ -60,13 +60,14 @@ defmodule Short.Code do
       false
 
   """
-  @spec valid?(Short.Code.t) :: Boolean
-  def valid?(code) do
+  @spec valid?(Short.Code.t | String.t) :: boolean
+  def valid?(code) when is_binary(code) do
     code
-    |> to_string()
     |> String.to_charlist()
     |> Enum.all?(&URI.char_unreserved?/1)
   end
+
+  def valid?(%Short.Code{} = code), do: code |> to_string() |> valid?()
 
   ## Helpers
 
