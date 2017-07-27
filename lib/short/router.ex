@@ -34,7 +34,24 @@ defmodule Short.Router do
 
   ## Helpers
 
-  defp adapter, do: Application.get_env(:short, :adapter)
+  defp adapter do
+    get_adapter(Application.get_env(:short, :adapter))
+  end
+
+  defp get_adapter(nil) do
+    message = """
+    the adapter config is not defined, please define it in your config with
+        config :short, :adapter, MyCustomAdapter
+
+    Using the InMemoryAdapter as a default adapter.
+    """
+
+    IO.warn(message, [])
+
+    Short.Adapters.InMemoryAdapter
+  end
+
+  defp get_adapter(defined_adapter), do: defined_adapter
 
   defp redirect(conn, to) do
     conn

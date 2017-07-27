@@ -5,7 +5,7 @@ defmodule Short.RouterTest do
   @options Short.Router.init([])
 
   setup do
-    Short.Adapters.InMemoryAdapter.clear!
+    adapter().clear!
     :ok
   end
 
@@ -21,8 +21,7 @@ defmodule Short.RouterTest do
       code = Short.Code.generate()
       url = Faker.Internet.url
 
-      adapter = Application.get_env(:short, :adapter)
-      {:ok, _} = adapter.create(url, code)
+      {:ok, _} = adapter().create(url, code)
       conn = conn(:get, "/#{code}") |> Short.Router.call(@options)
 
       assert conn.status == 301
@@ -48,8 +47,7 @@ defmodule Short.RouterTest do
       code = Short.Code.generate()
       url = Faker.Internet.url
 
-      adapter = Application.get_env(:short, :adapter)
-      {:ok, _} = adapter.create(url, code)
+      {:ok, _} = adapter().create(url, code)
       conn =
         conn(:post, "/", %{code: code, url: url})
         |> Plug.Conn.put_resp_header("content-type", "multipart/form-data")
@@ -59,5 +57,9 @@ defmodule Short.RouterTest do
       assert conn.resp_body ==
         Short.CodeAlreadyExistsError.exception(code).message
     end
+  end
+
+  defp adapter do
+    Short.Adapters.InMemoryAdapter
   end
 end
