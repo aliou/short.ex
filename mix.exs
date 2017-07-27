@@ -54,9 +54,5 @@ defmodule Short.Mixfile do
     ]
   end
 
-  defp aliases do
-    [
-      test: "test --no-start"
-    ]
-  end
+  defp aliases, do: []
 end
