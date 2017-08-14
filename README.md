@@ -71,7 +71,7 @@ $ curl http://localhost:4001 -i \
 You can also specify your own code too:
 ```shell
 $ curl http://localhost:4001 -i \
->   -F "url=https://aliou.me"
+>   -F "url=https://aliou.me" \
 >   -F "code=abc"
 ```
 
