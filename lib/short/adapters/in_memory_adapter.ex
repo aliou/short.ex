@@ -2,8 +2,7 @@ defmodule Short.Adapters.InMemoryAdapter do
   @moduledoc """
   Store shortened URLs in memory.
 
-  Because this adapter is using an Agent, make sure it is started with the
-  Application.
+  This is the default adapter and is started with the Short Application.
   """
 
   use Short.Adapter
