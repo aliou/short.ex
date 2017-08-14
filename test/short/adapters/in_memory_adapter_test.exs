@@ -1,5 +1,5 @@
 defmodule Short.Adapters.InMemoryAdapterTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Short.{CodeNotFoundError, CodeAlreadyExistsError}
   alias Short.Adapters.InMemoryAdapter
