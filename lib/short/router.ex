@@ -15,7 +15,7 @@ defmodule Short.Router do
   get "/:code" do
     code = conn.params["code"]
     case adapter().get(code) do
-      {:ok, url} -> redirect(conn, url)
+      {:ok, url} -> redirect(conn, to_string(url))
       {:error, _} -> conn |> send_resp(404, "not found")
     end
   end
