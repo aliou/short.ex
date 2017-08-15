@@ -51,3 +51,15 @@ defmodule Short.URL do
     uri.host != nil && Enum.member?(@valid_schemes, uri.scheme)
   end
 end
+
+# Allow `Short.URL`s to be interpolated in strings.
+defimpl String.Chars, for: Short.URL do
+  def to_string(url), do: url.__uri |> URI.to_string()
+end
+
+# Hide internal implementation in IEx. No reason, I just want to.
+defimpl Inspect, for: Short.URL do
+  @inspected inspect(@for)
+
+  def inspect(url, _), do: "#" <> @inspected <> "<" <> to_string(url) <> ">"
+end
