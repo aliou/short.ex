@@ -6,9 +6,9 @@ defmodule Short.Adapters.InMemoryAdapter do
   Application.
   """
 
-  @behaviour Short.Adapter
+  use Short.Adapter
 
-  alias Short.{Code, CodeAlreadyExistsError, CodeNotFoundError}
+  alias Short.{Code, CodeAlreadyExistsError, CodeNotFoundError, URL}
 
   ## Agent setup
 
@@ -30,13 +30,7 @@ defmodule Short.Adapters.InMemoryAdapter do
   ## Short Adapter implementation
 
   @impl Short.Adapter
-  @spec get(Short.Code.t | String.t) ::
-    {:ok, String.t} | {:error, CodeNotFoundError.t}
-  def get(code)
-
-  def get(code) when is_binary(code), do: get(Code.new(code))
-
-  def get(%Short.Code{} = code) do
+  def get(%Code{} = code) do
     case Map.fetch(all(), code) do
       {:ok, url} -> {:ok, url}
       :error -> {:error, CodeNotFoundError.exception(code)}
@@ -44,14 +38,8 @@ defmodule Short.Adapters.InMemoryAdapter do
   end
 
   @impl Short.Adapter
-  @spec create(String.t, Short.Code.t | nil) ::
-    {:ok, {Short.Code.t, String.t}} | {:error, CodeAlreadyExistsError.t}
-  def create(url, code \\ nil)
-
-  def create(url, nil), do: create(url, Code.generate())
-
   # TODO: This is refactorable using `with` I think.
-  def create(url, code) do
+  def create(%URL{} = url, %Code{} = code) do
     if code_exists?(code) do
       {:error, CodeAlreadyExistsError.exception(code)}
     else
