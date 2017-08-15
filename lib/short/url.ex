@@ -48,7 +48,31 @@ defmodule Short.URL do
   """
   @spec valid?(Short.URL.t) :: boolean
   def valid?(%Short.URL{__uri: uri}) do
-    uri.host != nil && Enum.member?(@valid_schemes, uri.scheme)
+    case is_valid(uri) do
+      {:error, _} -> false
+      {:ok, _}    -> true
+    end
+  end
+
+  @doc """
+  URL validation core logic:
+  - does the hostname resolve?
+  - is there a scheme?
+  - is the scheme in the set defined in @valid_schemes
+  """
+  @spec is_valid(%URI{}) :: {:ok, %URI{}} | {:error, String.t()}
+  defp is_valid(%URI{} = uri) do
+    case :inet.gethostbyname(to_char_list uri.host) do
+      {:error, _} -> {:error, "invalid hostname"}
+      {:ok, _}    -> case Enum.member?(@valid_schemes, uri.scheme) do
+                       false -> {:error, "invalid scheme"}
+                       true  -> case uri do
+                                  %URI{scheme: nil} -> {:error, "scheme cannot be nil"}
+                                  %URI{host: nil}   -> {:error, "host cannot be nil"}
+                                  uri -> {:ok, uri}
+                                 end
+                     end
+    end
   end
 end
 
