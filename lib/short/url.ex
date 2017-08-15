@@ -65,25 +65,25 @@ defmodule Short.URL do
     |> valid_scheme
     |> nil_elements
   end
-  
+
   defp valid_hostname({:ok, %URI{} = uri}) do
     case :inet.gethostbyname(to_charlist uri.host) do
       {:error, _} -> {:error, "invalid hostname"}
       {:ok, _}    -> {:ok, uri}
     end
   end
-  
+
   defp valid_hostname({:error, errstr}) do
     {:error, errstr}
   end
-  
+
   defp valid_scheme({:ok, %URI{} = uri}) do
     case Enum.member?(@valid_schemes, uri.scheme) do
       false -> {:error, "invalid scheme"}
       true  -> {:ok, uri}
     end
   end
-  
+
   defp valid_scheme({:error, errstr}) do
     {:error, errstr}
   end
@@ -94,15 +94,15 @@ defmodule Short.URL do
       true  -> {:ok, uri}
     end
   end
-  
+
   defp nil_elements({:ok, %URI{} = uri}) do
     case uri do
       %URI{scheme: nil} -> {:error, "scheme cannot be nil"}
       %URI{host: nil}   -> {:error, "host cannot be nil"}
-      uri -> {:ok, uri}      
+      uri -> {:ok, uri}
     end
   end
-  
+
   defp nil_elements({:error, errstr}) do
     {:error, errstr}
   end
