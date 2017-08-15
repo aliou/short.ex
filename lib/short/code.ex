@@ -42,7 +42,7 @@ defmodule Short.Code do
   def generate(length \\ 0)
 
   def generate(0), do: generate(code_length())
-  def generate(length) do
+  def generate(length) when length > 0 and is_integer(length) do
     length
     |> :crypto.strong_rand_bytes()
     |> Base.url_encode64()
