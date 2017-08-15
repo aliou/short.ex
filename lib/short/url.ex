@@ -54,25 +54,57 @@ defmodule Short.URL do
     end
   end
 
-  @doc """
-  URL validation core logic:
-  - does the hostname resolve?
-  - is there a scheme?
-  - is the scheme in the set defined in @valid_schemes
-  """
+  # URL validation core logic:
+  # - does the hostname resolve?
+  # - is there a scheme?
+  # - is the scheme in the set defined in @valid_schemes
+
   @spec is_valid(%URI{}) :: {:ok, %URI{}} | {:error, String.t()}
   defp is_valid(%URI{} = uri) do
-    case :inet.gethostbyname(to_char_list uri.host) do
+    valid_hostname uri
+    |> valid_scheme
+    |> nil_elements
+  end
+  
+  defp valid_hostname({:ok, %URI{} = uri}) do
+    case :inet.gethostbyname(to_charlist uri.host) do
       {:error, _} -> {:error, "invalid hostname"}
-      {:ok, _}    -> case Enum.member?(@valid_schemes, uri.scheme) do
-                       false -> {:error, "invalid scheme"}
-                       true  -> case uri do
-                                  %URI{scheme: nil} -> {:error, "scheme cannot be nil"}
-                                  %URI{host: nil}   -> {:error, "host cannot be nil"}
-                                  uri -> {:ok, uri}
-                                 end
-                     end
+      {:ok, _}    -> {:ok, uri}
     end
+  end
+  
+  defp valid_hostname({:error, errstr}) do
+    {:error, errstr}
+  end
+  
+  defp valid_scheme({:ok, %URI{} = uri}) do
+    case Enum.member?(@valid_schemes, uri.scheme) do
+      false -> {:error, "invalid scheme"}
+      true  -> {:ok, uri}
+    end
+  end
+  
+  defp valid_scheme({:error, errstr}) do
+    {:error, errstr}
+  end
+
+  defp valid_scheme(%URI{} = uri) do
+    case Enum.member?(@valid_schemes, uri.scheme) do
+      false -> {:error, "invalid scheme"}
+      true  -> {:ok, uri}
+    end
+  end
+  
+  defp nil_elements({:ok, %URI{} = uri}) do
+    case uri do
+      %URI{scheme: nil} -> {:error, "scheme cannot be nil"}
+      %URI{host: nil}   -> {:error, "host cannot be nil"}
+      uri -> {:ok, uri}      
+    end
+  end
+  
+  defp nil_elements({:error, errstr}) do
+    {:error, errstr}
   end
 end
 
