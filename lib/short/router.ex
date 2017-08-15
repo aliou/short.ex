@@ -25,7 +25,7 @@ defmodule Short.Router do
     code = conn.params["code"]
 
     case adapter().create(url, code) do
-      {:ok, {code, ^url}} -> conn |> send_resp(200, "#{code}")
+      {:ok, {code, _url}} -> conn |> send_resp(200, "#{code}")
       {:error, error} -> conn |> send_resp(422, error.message)
     end
   end
