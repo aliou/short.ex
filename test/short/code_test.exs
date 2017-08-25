@@ -25,8 +25,10 @@ defmodule Short.CodeTest do
       given_code_length = :rand.uniform(100)
       # Unlikely, but make sure the configured code length is != than the given
       # length.
+      generator = (fn -> :rand.uniform(100) end)
       configured_code_length =
-        Stream.repeatedly(fn -> :rand.uniform(100) end)
+        generator
+        |> Stream.repeatedly()
         |> Enum.find(fn(code_length) -> code_length != given_code_length end)
 
       Application.put_env(:short, :code_length, configured_code_length)
