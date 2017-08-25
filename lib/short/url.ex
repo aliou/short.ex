@@ -5,6 +5,13 @@ defmodule Short.URL do
   This module defines a Short URL and the main functions for working with URLs.
   """
 
+  # This is pretty overkill, but /shrug.
+  # Define a custom Ecto type so we can do queries using Short URLs.
+  # We only say this is a behaviour if Ecto is define to silence warnings on
+  # projects without Ecto.
+  # TODO: See if there is another way of doing this.
+  if Code.ensure_loaded?(Ecto), do: @behaviour Ecto.Type
+
   @enforce_keys [:__uri]
   defstruct [:__uri]
 
@@ -50,6 +57,26 @@ defmodule Short.URL do
   def valid?(%Short.URL{__uri: uri}) do
     uri.host != nil && Enum.member?(@valid_schemes, uri.scheme)
   end
+
+  ## Ecto behaviour
+
+  # How Ecto will store our URL.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def type, do: :string
+
+  # Transform our URL to the right format for the Ecto storage.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def cast(%Short.URL{} = url), do: {:ok, to_string(url)}
+  def cast(_), do: :error
+
+  # Transform to our custom type.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def load(url) when is_binary(url), do: {:ok, Short.URL.new(url)}
+
+  # Validate and transform into the Ecto native type.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def dump(%Short.URL{} = url), do: {:ok, to_string(url)}
+  def dump(_), do: :error
 end
 
 # Allow `Short.URL`s to be interpolated in strings.
