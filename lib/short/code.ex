@@ -40,13 +40,9 @@ defmodule Short.Code do
   """
   @spec generate(integer) :: Short.Code.t
   def generate(length \\ 0)
-
-  def generate(0), do: generate(code_length())
-  def generate(length) when length > 0 and is_integer(length) do
+  def generate(length) when is_integer(length) do
     length
-    |> :crypto.strong_rand_bytes()
-    |> Base.url_encode64()
-    |> binary_part(0, length)
+    |> raw_generate()
     |> new()
   end
 
@@ -84,6 +80,17 @@ defmodule Short.Code do
   @doc false
   @spec length(t) :: integer
   def length(code), do: String.length(code.__code)
+
+  @doc false
+  @spec raw_generate(integer) :: String.t
+  def raw_generate(length \\ 0)
+  def raw_generate(0), do: raw_generate(code_length())
+  def raw_generate(length) do
+    length
+    |> :crypto.strong_rand_bytes()
+    |> Base.url_encode64()
+    |> binary_part(0, length)
+  end
 end
 
 # Allow `Short.Code`s to be interpolated in strings.
