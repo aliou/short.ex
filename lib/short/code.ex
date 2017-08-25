@@ -6,6 +6,9 @@ defmodule Short.Code do
   Codes.
   """
 
+  # Only adopt behaviour if Ecto is defined.
+  if Code.ensure_loaded?(Ecto), do: @behaviour Ecto.Type
+
   @enforce_keys [:__code]
   defstruct [:__code]
 
@@ -66,6 +69,26 @@ defmodule Short.Code do
   end
 
   def valid?(%Short.Code{} = code), do: code |> to_string() |> valid?()
+
+  ## Ecto behaviour.
+
+  # How Ecto will store our URL.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def type, do: :string
+
+  # Transform our URL to the right format for the Ecto storage.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def cast(%Short.Code{} = code), do: {:ok, to_string(code)}
+  def cast(_), do: :error
+
+  # Transform to our custom type.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def load(code) when is_binary(code), do: {:ok, Short.Code.new(code)}
+
+  # Validate and transform into the Ecto native type.
+  if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
+  def dump(%Short.Code{} = code), do: {:ok, to_string(code)}
+  def dump(_), do: :error
 
   ## Helpers
 

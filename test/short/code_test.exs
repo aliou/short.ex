@@ -42,4 +42,39 @@ defmodule Short.CodeTest do
       assert Short.Code.length(code) != configured_code_length
     end
   end
+
+  describe "type/0" do
+    test "it stores the Codes as strings." do
+      assert Short.Code.type == :string
+    end
+  end
+
+  describe "cast/1" do
+    test "it returns the string representation of the Code when it is a Short Code" do
+      code = Short.Code.generate()
+      assert Short.Code.cast(code) == {:ok, to_string(code)}
+    end
+
+    test "it returns an error when it is something other" do
+      assert Short.Code.cast(1) == :error
+    end
+  end
+
+  describe "load/1" do
+    test "it returns the Code when getting from the database" do
+      code = Short.Code.raw_generate()
+      assert Short.Code.load(code) == {:ok, Short.Code.new(code)}
+    end
+  end
+
+  describe "dump/1" do
+    test "it returns the string representation of the Code when it is a Short Code" do
+      code = Short.Code.generate()
+      assert Short.Code.dump(code) == {:ok, to_string(code)}
+    end
+
+    test "it returns an error when it is something other" do
+      assert Short.Code.dump(1) == :error
+    end
+  end
 end
