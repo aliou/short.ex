@@ -64,12 +64,13 @@ defmodule Short.URL do
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
   def type, do: :string
 
-  # Transform our URL to the right format for the Ecto storage.
+  # Transform anything to our custom type.
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
-  def cast(%Short.URL{} = url), do: {:ok, to_string(url)}
+  def cast(%Short.URL{} = url), do: {:ok, url}
+  def cast(url) when is_binary(url), do: {:ok, Short.URL.new(url)}
   def cast(_), do: :error
 
-  # Transform to our custom type.
+  # Transform from db to our custom type.
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
   def load(url) when is_binary(url), do: {:ok, Short.URL.new(url)}
 
