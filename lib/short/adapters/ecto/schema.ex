@@ -5,6 +5,7 @@ if Code.ensure_loaded?(Ecto) do
     """
 
     use Ecto.Schema
+    import Ecto.Changeset
 
     # Allow configurable table name?
     schema "short_urls" do
@@ -12,6 +13,13 @@ if Code.ensure_loaded?(Ecto) do
       field :url, Short.URL
 
       timestamps()
+    end
+
+    def changeset(short_url, params \\ %{}) do
+      short_url
+      |> cast(params, [:code, :url])
+      |> validate_required([:code, :url])
+      |> unique_constraint(:code)
     end
   end
 end
