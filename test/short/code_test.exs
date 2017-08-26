@@ -50,9 +50,14 @@ defmodule Short.CodeTest do
   end
 
   describe "cast/1" do
-    test "it returns the string representation of the Code when it is a Short Code" do
+    test "it converts a Short Code into a Short Code" do
       code = Short.Code.generate()
-      assert Short.Code.cast(code) == {:ok, to_string(code)}
+      assert Short.Code.cast(code) == {:ok, code}
+    end
+
+    test "it converts a string into a Short Code" do
+      code = Short.Code.raw_generate()
+      assert Short.Code.cast(code) == {:ok, Short.Code.new(code)}
     end
 
     test "it returns an error when it is something other" do

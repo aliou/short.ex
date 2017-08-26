@@ -11,9 +11,14 @@ defmodule Short.URLTest do
   end
 
   describe "cast/1" do
-    test "it returns the string representation of the URL when it is a Short URL" do
+    test "it returns a Short URL into a Short URL" do
       url = Short.URL.new(Faker.Internet.url())
-      assert Short.URL.cast(url) == {:ok, to_string(url)}
+      assert Short.URL.cast(url) == {:ok, url}
+    end
+
+    test "it converts a string into a Short.URL" do
+      url = Faker.Internet.url()
+      assert Short.URL.cast(url) == {:ok, Short.URL.new(url)}
     end
 
     test "it returns an error when it is something other" do

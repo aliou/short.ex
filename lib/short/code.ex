@@ -76,12 +76,14 @@ defmodule Short.Code do
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
   def type, do: :string
 
-  # Transform our URL to the right format for the Ecto storage.
+  # Transform anything to our custom type.
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
-  def cast(%Short.Code{} = code), do: {:ok, to_string(code)}
+  def cast(%Short.Code{} = code), do: {:ok, code}
+  def cast(code) when is_binary(code), do: {:ok, Short.Code.new(code)}
+  # TODO: Handle casting of invalid codes.
   def cast(_), do: :error
 
-  # Transform to our custom type.
+  # Transform from db to our custom type.
   if Code.ensure_loaded?(Ecto), do: @impl Ecto.Type
   def load(code) when is_binary(code), do: {:ok, Short.Code.new(code)}
 
