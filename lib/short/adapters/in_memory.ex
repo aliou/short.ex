@@ -1,4 +1,4 @@
-defmodule Short.Adapters.InMemoryAdapter do
+defmodule Short.Adapters.InMemory do
   @moduledoc """
   Store shortened URLs in memory.
 

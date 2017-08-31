@@ -42,12 +42,12 @@ defmodule Short.Router do
     the adapter config is not defined, please define it in your config with
         config :short, :adapter, MyCustomAdapter
 
-    Using the InMemoryAdapter as a default adapter.
+    Using the in memory adapter as a default adapter.
     """
 
     IO.warn(message, [])
 
-    Short.Adapters.InMemoryAdapter
+    Short.Adapters.InMemory
   end
 
   defp get_adapter(defined_adapter), do: defined_adapter

@@ -1,4 +1,4 @@
-defmodule Short.Adapters.GenServerAdapter do
+defmodule Short.Adapters.GenServer do
   @moduledoc """
   Store shortened URLs in a GenServer.
 

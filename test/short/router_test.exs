@@ -60,6 +60,6 @@ defmodule Short.RouterTest do
   end
 
   defp adapter do
-    Short.Adapters.InMemoryAdapter
+    Short.Adapters.InMemory
   end
 end

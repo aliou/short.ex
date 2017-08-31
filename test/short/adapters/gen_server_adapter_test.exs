@@ -1,11 +1,11 @@
-defmodule Short.Adapters.GenServerAdapterTest do
+defmodule Short.Adapters.GenServerTest do
   use ExUnit.Case, async: true
 
   alias Short.{CodeNotFoundError, CodeAlreadyExistsError}
-  alias Short.Adapters.GenServerAdapter
+  alias Short.Adapters.GenServer
 
   setup do
-    {:ok, _adapter} = GenServerAdapter.start_link
+    {:ok, _adapter} = GenServer.start_link
     :ok
   end
 
@@ -14,49 +14,49 @@ defmodule Short.Adapters.GenServerAdapterTest do
       code = "abc"
 
       assert {:error, %CodeNotFoundError{code: %Short.Code{__code: ^code}}} =
-        GenServerAdapter.get(code)
+        GenServer.get(code)
     end
 
     test "it returns the code and the URL when the code exists" do
       url = Faker.Internet.url |> Short.URL.new()
       code = Short.Code.generate()
 
-      GenServerAdapter.create(url, code)
+      GenServer.create(url, code)
 
-      assert {:ok, ^url} = GenServerAdapter.get(code)
+      assert {:ok, ^url} = GenServer.get(code)
     end
   end
 
   describe "create/2" do
     test "it generates a code when nil is given" do
       url = Faker.Internet.url |> Short.URL.new()
-      assert {:ok, {_code, ^url}} = GenServerAdapter.create(url)
+      assert {:ok, {_code, ^url}} = GenServer.create(url)
     end
 
     test "it uses the given code when available" do
       url = Faker.Internet.url |> Short.URL.new()
       code = Short.Code.new("my-custom-code")
 
-      assert {:ok, {^code, ^url}} = GenServerAdapter.create(url, code)
+      assert {:ok, {^code, ^url}} = GenServer.create(url, code)
     end
 
     test "it returns an error when the code already exists" do
       url = Faker.Internet.url |> Short.URL.new()
       code = Short.Code.new("my-custom-code")
 
-      GenServerAdapter.create(url, code)
+      GenServer.create(url, code)
 
       assert {:error, %CodeAlreadyExistsError{code: ^code}} =
-        GenServerAdapter.create(url, code)
+        GenServer.create(url, code)
     end
 
     test "it returns the existing code if the URL already exists" do
       url = Faker.Internet.url |> Short.URL.new()
       code = Short.Code.new("my-custom-code")
 
-      GenServerAdapter.create(url, code)
+      GenServer.create(url, code)
 
-      assert {:ok, {^code, ^url}} = GenServerAdapter.create(url)
+      assert {:ok, {^code, ^url}} = GenServer.create(url)
     end
   end
 end

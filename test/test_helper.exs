@@ -1,3 +1,3 @@
-Application.put_env(:short, :adapter, Short.Adapters.InMemoryAdapter)
+Application.put_env(:short, :adapter, Short.Adapters.InMemory)
 
 ExUnit.start()

@@ -30,7 +30,7 @@ Configure Short to use the In Memory Adapter:
 ```elixir
 # config/config.exs
 
-config :short, :adapter, Short.Adapters.InMemoryAdapter
+config :short, :adapter, Short.Adapters.InMemory
 ```
 
 Finally, add the router to your application's supervisor tree:

@@ -3,10 +3,10 @@ defmodule Short.Application do
 
   use Application
 
-  alias Short.Adapters.InMemoryAdapter
+  alias Short.Adapters.InMemory
 
   def start(_type, _args) do
-    children = [InMemoryAdapter]
+    children = [InMemory]
 
     opts = [strategy: :one_for_one, name: Short.Supervisor]
     Supervisor.start_link(children, opts)
