@@ -1,4 +1,5 @@
 defmodule Mix.Tasks.Short.Ecto.Install do
+  @moduledoc false
   # Heavily inspired by Papertail install task.
   @shortdoc "generates short migration file for your database"
 
@@ -7,6 +8,9 @@ defmodule Mix.Tasks.Short.Ecto.Install do
   import Macro, only: [underscore: 1]
   import Mix.Generator
 
+  # TODO: Fetch the repo from the application if possible, to use for the folder
+  # name.
+  # OR use the ecto migration?
   def run(_args) do
     migrations_folder = Path.relative_to("priv/repo/migrations", Mix.Project.app_path)
     file_name = "#{timestamp()}_#{underscore(AddShortUrls)}.exs"
