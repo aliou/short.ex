@@ -3,3 +3,7 @@ elixir:
   - 1.5.1
 otp_release:
   - 20.0
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database short_test_repo;' -U postgres
