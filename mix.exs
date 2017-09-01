@@ -54,6 +54,7 @@ defmodule Short.Mixfile do
 
       # Adapter deps.
       {:ecto, only: [:dev, :test]},
+      {:postgrex, only: [:dev, :test]},
     ]
   end
 
