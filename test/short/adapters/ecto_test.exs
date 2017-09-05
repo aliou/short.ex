@@ -5,13 +5,14 @@ defmodule Short.Adapters.EctoAdapterTest do
   alias Short.Adapters.Ecto, as: EctoAdapter
 
   setup_all do
-    Mix.Tasks.Ecto.Create.run([])
+    {:ok, _pid} = Short.Adapters.Ecto.Repo.start_link
+    Ecto.Adapters.SQL.Sandbox.mode(Short.Adapters.Ecto.Repo, :manual)
 
     :ok
   end
 
   setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Short.Ecto.TestRepo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Short.Adapters.Ecto.Repo)
   end
 
   describe "get/1" do
