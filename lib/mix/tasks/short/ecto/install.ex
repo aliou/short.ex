@@ -1,39 +1,48 @@
 defmodule Mix.Tasks.Short.Ecto.Install do
-  @moduledoc false
-  # Heavily inspired by Papertail install task.
-  @shortdoc "generates short migration file for your database"
-
   use Mix.Task
 
-  import Macro, only: [underscore: 1]
+  import Macro, only: [camelize: 1, underscore: 1]
   import Mix.Generator
+  import Mix.Ecto
 
-  # TODO: Fetch the repo from the application if possible, to use for the folder
-  # name.
-  # OR use the ecto migration?
-  def run(_args) do
-    migrations_folder = Path.relative_to("priv/repo/migrations", Mix.Project.app_path)
-    file_name = "#{timestamp()}_#{underscore(AddShortUrls)}.exs"
-    file_path = Path.join(migrations_folder, file_name)
+  @shortdoc "Generates a migration creating a new table for the Short app."
+  @moduledoc """
+  Generate a migration creating a new table for the Short application.
 
-    create_directory(migrations_folder)
+  The repository must be set under `:ecto_repos` in the
+  current app configuration or given via the `-r` option.
 
-    create_file file_path, """
-    defmodule Repo.Migrations.AddShortUrls do
-      use Ecto.Migration
+  ## Examples
 
-      def change do
-        create table(:short_urls) do
-          add :code, :string, null: false
-          add :url, :string, null: false
+      mix short.ecto.install
+      mix short.ecto.install -r Custom.Repo
 
-          timestamps()
-        end
+  By default, the migration will be generated to the
+  "priv/YOUR_REPO/migrations" directory of the current application
+  but it can be configured to be any subdirectory of `priv` by
+  specifying the `:priv` key under the repository configuration.
 
-        create unique_index(:short_urls, [:code])
-      end
+  ## Command line options
+
+    * `-r`, `--repo` - the repo to generate migration for
+
+  """
+
+  def run(args) do
+    no_umbrella!("ecto.gen.migration")
+    repos = parse_repo(args)
+
+    Enum.each repos, fn repo ->
+      name = "add_short_urls"
+      ensure_repo(repo, args)
+      path = migrations_path(repo)
+      file = Path.join(path, "#{timestamp()}_#{underscore(name)}.exs")
+
+      create_directory(path)
+
+      assigns = [mod: Module.concat([repo, Migrations, camelize(name)])]
+      create_file file, migration_template(assigns)
     end
-    """
   end
 
   defp timestamp do
@@ -43,4 +52,22 @@ defmodule Mix.Tasks.Short.Ecto.Install do
 
   defp pad(i) when i < 10, do: << ?0, ?0 + i >>
   defp pad(i), do: to_string(i)
+
+  embed_template :migration,  """
+  defmodule <%= inspect @mod %> do
+    use Ecto.Migration
+
+    def change do
+      create table(:short_urls) do
+        add :code, :string, null: false
+        add :url, :string, null: false
+
+        timestamps()
+      end
+
+      create unique_index(:short_urls, [:code])
+    end
+  end
+  """
+
 end
