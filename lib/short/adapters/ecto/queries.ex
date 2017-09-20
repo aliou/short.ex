@@ -1,8 +1,6 @@
 if Code.ensure_loaded?(Ecto) do
   defmodule Short.Adapters.Ecto.Queries do
-    @moduledoc """
-    Queries used by the Ecto adapter.
-    """
+    @moduledoc false
 
     import Ecto.Query
     alias Short.Adapters.Ecto.Schema
