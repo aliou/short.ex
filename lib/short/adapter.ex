@@ -15,7 +15,18 @@ defmodule Short.Adapter do
   @typedoc "Possible errors occuring when working with Short Codes."
   @type error :: Short.CodeNotFoundError.t | Short.CodeAlreadyExistsError.t
 
+  @doc """
+  Retrieve a URL from the adapter.
+
+  Returns the URL or an error when failing to retrieve the URL.
+  """
   @callback get(code) :: {:ok, url} | {:error, error}
+
+  @doc """
+  Shortens an URL with the given code or a generated one.
+
+  Returns the URL and the Code or an error when failing to shorten the URL.
+  """
   @callback create(url, code | nil) :: {:ok, shortened_url} | {:error, error}
 
   # Experimenting with macros. For now, add some convenience functions that
