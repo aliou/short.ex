@@ -2,6 +2,7 @@
 if Code.ensure_loaded?(Ecto) do
   defmodule Short.Adapters.Ecto.Schema do
     @moduledoc """
+    The schema used to map the Short URLs to an Elixir struct.
     """
 
     use Ecto.Schema
