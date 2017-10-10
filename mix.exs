@@ -10,6 +10,7 @@ defmodule Short.Mixfile do
       start_permanent: Mix.env == :prod,
       deps: deps(),
       aliases: aliases(),
+      package: package(),
 
       # Docs
       name: "Short",
@@ -59,4 +60,17 @@ defmodule Short.Mixfile do
   end
 
   defp aliases, do: []
+
+  defp description do
+    "A URL shortener toolkit."
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE"],
+      maintainers: ["Aliou Diallo"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/aliou/short.ex"}
+    ]
+  end
 end
