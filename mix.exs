@@ -10,6 +10,7 @@ defmodule Short.Mixfile do
       start_permanent: Mix.env == :prod,
       deps: deps(),
       aliases: aliases(),
+      description: description(),
       package: package(),
 
       # Docs
