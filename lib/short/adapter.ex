@@ -1,6 +1,10 @@
 defmodule Short.Adapter do
   @moduledoc """
   Behaviour for creating a Short adapter.
+
+  The easiest way to create a Short Adapter is to `use` the Short.Adapter and
+  then implement the `get/1` and `create/2` callbacks.
+  See `Short.Adapters.InMemory` for an example.
   """
 
   @typedoc "The code representing the shortened URL"
