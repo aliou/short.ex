@@ -53,10 +53,6 @@ defmodule Short.Mixfile do
 
       # Docs
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
-
-      # Adapter deps.
-      {:ecto, only: [:dev, :test]},
-      {:postgrex, only: [:dev, :test]},
     ]
   end
 
