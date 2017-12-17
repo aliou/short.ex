@@ -22,12 +22,13 @@ def application do
 end
 
 defp deps do
-[
-  ...
-  {:short, "~> 0.1.0"},
-  {:cowboy, "~> 1.0.0"},
-  ...
-]
+  [
+    ...
+    {:short, "~> 0.0.3"},
+    {:cowboy, "~> 1.0.0"},
+    ...
+  ]
+end
 ```
 
 Configure Short to use the In Memory Adapter:
