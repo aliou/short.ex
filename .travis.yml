@@ -5,10 +5,10 @@ elixir:
   - 1.5.1
 otp_release:
   - 20.0
-services:
-  - postgresql
+# services:
+#   - postgresql
 env:
   MIX_ENV=test
-before_script:
-  - psql -c 'create database short_test_repo;' -U postgres
-  - mix do short.ecto.install, ecto.migrate
+# before_script:
+#   - psql -c 'create database short_test_repo;' -U postgres
+#   - mix do short.ecto.install, ecto.migrate
